@@ -1,4 +1,4 @@
-export default class Api {
+class Api {
   constructor(options) {
     this._url = options.host;
     this._token = options.headers;
@@ -84,11 +84,17 @@ export default class Api {
     }).then(this._getJsonOrError);
   }
 }
-const api = new Api({
+/*const api = new Api({
   host: "https://mesto.nomoreparties.co/v1/cohort-47/",
   headers: {
     authorization: "f33435a7-771f-4f87-9cc8-2dc2b5e06d11",
     "Content-Type": "application/json",
   },
+});*/
+
+const api = new Api("https://mesto.nomoreparties.co/v1/cohort-47/",{
+    authorization: "f33435a7-771f-4f87-9cc8-2dc2b5e06d11",
+    "Content-Type": "application/json",
 });
+
 export default api;

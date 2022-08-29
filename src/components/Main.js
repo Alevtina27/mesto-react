@@ -1,11 +1,44 @@
 import React from 'react';
+import api from '../utils/Api.js'
+import Card from './Card.js';
+import {useState, useEffect} from 'react';
 
-
-function Main(props) {
-  const onEditProfile = props.onEditProfile;
+export default function Main(props){
+ const {onEditProfile, onAddPlace, onEditAvatar, onCardClick} = props; 
+ /* const onEditProfile = props.onEditProfile;
   const onAddPlace  = props.onAddPlace ;
   const onEditAvatar = props.onEditAvatar;
+  const onCardClick = props.onCardClick;*/
 
+  const [userName, setUserName] = useState('');
+  const [userDescription, setUserDescription] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    Promise.all([api.getUserInfo()])
+      .then(data => {
+        setUserName(data.name);
+        setUserDescription(data.about);
+        setUserAvatar(data.avatar);
+      // setCards(cards);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => console.log('work'));
+
+      api
+      .getInitialCards()
+      .then((item) => {
+        setCards(...cards, item);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+ 
   /*function handleEditAvatarClick (){
     document.querySelector('.popup_type_avatar').classList.add('.popup_opened');
 };
@@ -47,8 +80,19 @@ function handleEditProfileClick() {
               onClick={onAddPlace}
             ></button>
           </section>
+          <section className="elements">
+        {cards.map((card) => (
+            <Card
+              key={card._id}
+              card={card}
+              onCardClick={onCardClick}
+             // onCardLike={onCardLike}
+             // onCardDeleteClick={onCardDeleteClick}
+            />
+        ))};
+      </section>
+         
           </main>
     );
     }
-    
-  export default Main;
+  
