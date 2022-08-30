@@ -1,16 +1,11 @@
 import '../index.css'
 import React from 'react'; 
 import {useState} from 'react';
-//import LogoMesto from '../LogoMesto.svg';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
-//import Card from './Card';
-//import api from '../utils/Api.js'
-
-
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -20,61 +15,39 @@ function App() {
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
 
-//const isEditProfilePopupOpen = {
-  //isOpen: false
-//}
-function handleCardClick(card) {
-  setImagePopupOpen(true);
+const handleCardClick = (card) => {
   setSelectedCard(card);
+  setImagePopupOpen(true);
 }
-
-
-  
-
-
-  /*function handleEditAvatarClick (){
-    const popupAvatar = document.querySelector(".popup_type_avatar");
-    popupAvatar.classList.add('.popup_opened');
-};
-function handleEditProfileClick (){
-  const popupEdit = document.querySelector(".popup_type_edit");
-  popupEdit.classList.add('.popup_opened');
- /// isEditProfilePopupOpen.isOpen = !isEditProfilePopupOpen.isOpen;
-  };
-
-
-  function handleAddPlaceClick () {
-    const popupAddCard = document.querySelector(".popup_type_add");
-    popupAddCard.classList.add('.popup_opened');
-};*/
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-   // setSelectedCard({});
+    setImagePopupOpen(false);
   }
 
   
-  /*function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
-  }*/
+    setIsAddPlacePopupOpen(true);
+  }
 
   return (
+    <div className="app">
       <div className="page">
       <Header />
       <Main 
-       onEditAvatar={setIsEditAvatarPopupOpen}
-       onEditProfile={setIsEditProfilePopupOpen}
-       onAddPlace={setIsAddPlacePopupOpen}
+       onEditAvatar={handleEditAvatarClick}
+       onEditProfile={handleEditProfileClick}
+       onAddPlace={handleAddPlaceClick}
        onCardClick={handleCardClick}
       />
       
@@ -157,10 +130,10 @@ function handleEditProfileClick (){
               className="popup__input-error input-link-error"
             ></span>
       </PopupWithForm>
-      <ImagePopup popupName="popup_type_image" selectedCard={selectedCard} onSubmit={closeAllPopups} isOpen={isImagePopupOpen}/>
+      <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/>
       <PopupWithForm popupName="deleteForm" title="Вы уверены?" buttonText='Да'></PopupWithForm>
       </div>
-      
+      </div>
   );
 }
 

@@ -3,9 +3,8 @@ import React from "react";
 export default function Card({card, onCardClick}) {
  
     return(
-        //<template id="element-template" className="element-template">
       <li className="cards__element">
-        <img onClick={onCardClick} src={card.link} alt="#" className="cards__photo" />
+        <img onClick={onCardClick} src={card.link} alt={card.name} className="cards__photo" />
         <button className="cards__delete" aria-label="delete-card"></button>
         <div className="cards__caption">
           <h2 className="cards__title">{card.name}</h2>
@@ -19,8 +18,7 @@ export default function Card({card, onCardClick}) {
           </div>
         </div>
       </li>
-   // </template>
     )
 
-    
+  
 }

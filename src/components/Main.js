@@ -29,7 +29,6 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardCli
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       })
-      .finally(() => console.log('work'));
 
        api
       .getInitialCards()
@@ -86,11 +85,12 @@ function handleEditProfileClick() {
           <section className="cards">
         {cards.map((card) => (
             <Card
+             card={card}
               key={card._id}
-              card={card}
+              link={card.link}
+              name={card.name}
               onCardClick={onCardClick}
-             //onCardLike={onCardLike}
-             // onCardDeleteClick={onCardDeleteClick}
+            cardLike={card.likes.length}
             />
         ))};
       </section>
