@@ -1,3 +1,4 @@
+import '../index.css'
 import React from 'react'; 
 import {useState} from 'react';
 //import LogoMesto from '../LogoMesto.svg';
@@ -68,7 +69,6 @@ function handleEditProfileClick (){
   }*/
 
   return (
-    <div className="App">
       <div className="page">
       <Header />
       <Main 
@@ -161,7 +161,6 @@ function handleEditProfileClick (){
       <PopupWithForm popupName="deleteForm" title="Вы уверены?" buttonText='Да'></PopupWithForm>
       </div>
       
-    </div>
   );
 }
 

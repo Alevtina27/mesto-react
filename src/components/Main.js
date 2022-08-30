@@ -1,10 +1,12 @@
+import '../index.css'
 import React from 'react';
-import api from '../utils/Api.js'
-import Card from './Card.js';
 import {useState, useEffect} from 'react';
+import{ api } from '../utils/Api.js'
+import Card from './Card.js';
 
-export default function Main(props){
- const {onEditProfile, onAddPlace, onEditAvatar, onCardClick} = props; 
+
+export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}){
+ //const {onEditProfile, onAddPlace, onEditAvatar, onCardClick} = props; 
  /* const onEditProfile = props.onEditProfile;
   const onAddPlace  = props.onAddPlace ;
   const onEditAvatar = props.onEditAvatar;
@@ -16,11 +18,12 @@ export default function Main(props){
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo()])
-      .then(data => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
+      api
+      .getUserInfo()
+      .then((data) => {
+       setUserName(data.name);
+       setUserDescription(data.about);
+      setUserAvatar(data.avatar);
       // setCards(cards);
       })
       .catch((err) => {
@@ -28,10 +31,10 @@ export default function Main(props){
       })
       .finally(() => console.log('work'));
 
-      api
+       api
       .getInitialCards()
-      .then((item) => {
-        setCards(...cards, item);
+      .then((data) => {
+        setCards(...cards, data);
       })
       .catch((err) => {
         console.log(err);
@@ -51,17 +54,17 @@ function handleEditProfileClick() {
     return (
         <main className="content">
         <section className="profile">
-            <div className="profile__container">
+            <div className="profile__container" >
               <img
-                src=""
+                src={userAvatar}
                 alt=""
                 className="profile__image"
                 onClick={onEditAvatar}
               />
               <div className="profile__info">
                 <div className="profile__text">
-                  <h1 className="section-title">Alevtina</h1>
-                  <p className="section-subtitle">Student</p>
+                  <h1 className="section-title">{userName}</h1>
+                  <p className="section-subtitle">{userDescription}</p>
                 </div>
                 <button
                 onClick={onEditProfile}
@@ -80,18 +83,17 @@ function handleEditProfileClick() {
               onClick={onAddPlace}
             ></button>
           </section>
-          <section className="elements">
+          <section className="cards">
         {cards.map((card) => (
             <Card
               key={card._id}
               card={card}
               onCardClick={onCardClick}
-             // onCardLike={onCardLike}
+             //onCardLike={onCardLike}
              // onCardDeleteClick={onCardDeleteClick}
             />
         ))};
       </section>
-         
           </main>
     );
     }
