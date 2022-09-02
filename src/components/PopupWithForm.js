@@ -1,21 +1,38 @@
-//import {children} from 'react';
+import { children } from "react";
 
-function PopupWithForm({ popupName, title, children, isOpen, onClose, buttonText }) {
-    //const isOpen = props.isOpen;
-return(
-<div className={`popup popup_type_${popupName}  ${isOpen ? 'popup_opened' : ''}`}>
+function PopupWithForm({
+  name,
+  title,
+  children,
+  isOpen,
+  onClose,
+  buttonSubmit,
+}) {
+  return (
+    <div
+      className={`popup popup_type_${name}  ${isOpen ? "popup_opened" : ""}`}
+    >
       <div className="popup__container">
-        <button onClick={onClose} type="button" className="popup__close"></button>
-        <form action="#" className="popup__input-container" id={popupName} onSubmit={onClose} noValidate>
-        <h2 className="popup__title">{title}</h2>
+        <button
+          onClick={onClose}
+          type="button"
+          className="popup__close"
+        ></button>
+        <form
+          action="#"
+          className="popup__input-container"
+          id={name}
+          onSubmit={onClose}
+          noValidate
+        >
+          <h2 className="popup__title">{title}</h2>
           {children}
           <button type="submit" className="popup__button">
-            {buttonText}
+            {buttonSubmit}
           </button>
         </form>
       </div>
-      </div>
-)
+    </div>
+  );
 }
 export default PopupWithForm;
-
