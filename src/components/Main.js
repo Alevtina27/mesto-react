@@ -41,7 +41,7 @@ function Main(props) {
           <img
             src={userAvatar}
             style={{ backgroundImage: `url(${userAvatar})` }}
-            alt=""
+            alt="Аватар"
             className="profile__image"
             onClick={onEditAvatar}
           />
