@@ -1,11 +1,13 @@
 import "../index.css";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { api } from "../utils/Api.js";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import {CurrentUserContext} from "../contexts/CurrentUserContext"
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -14,6 +16,10 @@ function App() {
 
   const [popupWithBigPictureOpen, setPopupWithBigPictureOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+
+  const [currentUser] = useState({ avatar: '../images/spinner/loader.gif',
+  name: 'Загрузка',
+  about: 'Загрузка',});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -32,6 +38,7 @@ function App() {
     setPopupWithBigPictureOpen(true);
   }
 
+  
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -40,6 +47,7 @@ function App() {
   }
 
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
       <div className="page">
         <Header />
@@ -48,6 +56,7 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          //onCardLike={handleLikeClick}
         />
 
         <Footer />
@@ -141,6 +150,7 @@ function App() {
         ></PopupWithForm>
       </div>
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
