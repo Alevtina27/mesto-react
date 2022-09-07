@@ -1,25 +1,18 @@
 import "../index.css";
 import React from "react";
-import { useState, useEffect } from "react";
-import { api } from "../utils/Api.js";
 import Card from "./Card.js";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-function Main({onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, handleLikeClick, handleCardDelete}) {
+function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
-
-  //const [name, setUserName] = useState("");
- //const [about, setUserDescription] = useState("");
- // const [avatar, setUserAvatar] = useState("");
-
 
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__container">
           <img
-            //src={userAvatar}
-            //style={{ backgroundImage: `url(${userAvatar})` }}
+            src={currentUser.avatar}
+            style={{ backgroundImage: `url(${currentUser.avatar})` }}
             alt="Аватар"
             className="profile__image"
             onClick={onEditAvatar}
@@ -47,22 +40,20 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, hand
         ></button>
       </section>
       <section className="cards">
-        {cards.map((card) => 
-          (
+        {cards.map((card) => (
             <Card
               card={card}
               key={card._id}
               link={card.link}
               name={card.name}
               onCardClick={onCardClick}
-              onCardLike={handleLikeClick}
-              onCardDelete={handleCardDelete}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
               cardLike={card.likes.length}
               currentUser={currentUser}
             />
           )
         )}
-        ;
       </section>
     </main>
   );

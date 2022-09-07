@@ -8,13 +8,15 @@ const isOwn = card.owner._id === currentUser._id;
 
 // Создаём переменную, которую после зададим в `className` для кнопки удаления
 const cardDeleteButtonClassName = (
-  `cards__delete ${isOwn ? 'cards__delete_inactive' : ''}`
+  `cards__delete ${isOwn ? 'cards__delete_active' : ''}`
 );
 
 const isLiked = card.likes.some(i => i._id === currentUser._id);
 
 // Создаём переменную, которую после зададим в `className` для кнопки лайка
 const cardLikeButtonClassName =  (`cards__like ${isLiked ? 'cards__like_active' : ''}`);
+
+
   return (
     <li className="cards__element">
       <img
