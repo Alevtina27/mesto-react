@@ -83,6 +83,24 @@ class Api {
       headers: this._token,
     }).then(this._getJsonOrError);
   }
+
+  _handleLike(id) {
+    return fetch(`${this._url}/cards/${id}/likes`, {
+      method: "PUT",
+      headers: this._token,
+    }).then(this._getJsonOrError);
+  }
+
+  _handleDislike(id) {
+    return fetch(`${this._url}/cards/${id}/likes`, {
+      method: "DELETE",
+      headers: this._token,
+    }).then(this._getJsonOrError);
+  }
+
+  changeLikeCardStatus(id, isLiked) {
+    return isLiked ? this._handleDislike(id) : this._handleLike(id);
+  }
 }
 export const api = new Api({
   host: "https://mesto.nomoreparties.co/v1/cohort-47/",
@@ -91,5 +109,3 @@ export const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
-

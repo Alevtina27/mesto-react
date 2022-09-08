@@ -1,7 +1,7 @@
 import "../index.css";
 import React from "react";
 import { useState, useEffect } from "react";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -33,7 +33,7 @@ function App() {
         console.log(`Ошибка: ${err}`);
       });
 
-      api
+    api
       .getInitialCards()
       .then((cards) => {
         setCards(cards);
@@ -41,9 +41,7 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-
   }, []);
-
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -62,32 +60,33 @@ function App() {
     setPopupWithBigPictureOpen(true);
   }
 
-
-  function handleUpdateUser(name, about){
-    api.editUserInfo(name, about)
-    .then(userData => {
-      setCurrentUser(userData)
-      closeAllPopups()
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    });
+  function handleUpdateUser(name, about) {
+    api
+      .editUserInfo(name, about)
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }
 
-  function handleUpdateAvatar(avatar){
-    api.changeAvatar(avatar)
-    .then(data => {
-      setCurrentUser(data)
-      closeAllPopups()
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    });
+  function handleUpdateAvatar(avatar) {
+    api
+      .changeAvatar(avatar)
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }
 
- function handleAddPlaceSubmit({name, link}){
-  api
-      .addCard({name, link})
+  function handleAddPlaceSubmit({ name, link }) {
+    api
+      .addCard({ name, link })
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -95,32 +94,35 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
- }
+  }
 
- function handleLikeClick(card){
-   const isLiked = card.likes.some((i) => i._id === currentUser._id);
-   api.addLikes(card._id, isLiked)
-   .then((newCard) => {
-     setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-   })
-   .catch((err) => {
-    console.log(`Ошибка: ${err}`);
-  });
-   } 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
 
-   function handleCardDelete(card){
-     api
-     .deleteCard(card._id)
-     .then(() => {
-       const newCard = cards.filter((c) => c._id !== card._id);
-       setCards(newCard);
-     })
-     .catch((err) => {
-       console.log(`Ошибка: ${err}`);
-     });
-   }
+  function handleCardDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        const newCard = cards.filter((c) => c._id !== card._id);
+        setCards(newCard);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
 
-   function closeAllPopups() {
+  function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -129,34 +131,46 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-    <div className="app">
-      <div className="page">
-        <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleLikeClick}
-          onCardDelete={handleCardDelete}
-        />
-        <Footer />
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-        <ImagePopup
-          card={selectedCard}
-          isOpen={popupWithBigPictureOpen}
-          onClose={closeAllPopups}
-        />
-        <PopupWithForm
-          name="deleteForm"
-          title="Вы уверены?"
-          buttonSubmit="Да"
-        ></PopupWithForm>
+      <div className="app">
+        <div className="page">
+          <Header />
+          <Main
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+          />
+          <Footer />
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+          />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handleAddPlaceSubmit}
+          />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          <ImagePopup
+            card={selectedCard}
+            isOpen={popupWithBigPictureOpen}
+            onClose={closeAllPopups}
+          />
+          <PopupWithForm
+            name="deleteForm"
+            title="Вы уверены?"
+            buttonSubmit="Да"
+          ></PopupWithForm>
+        </div>
       </div>
-    </div>
     </CurrentUserContext.Provider>
   );
 }
