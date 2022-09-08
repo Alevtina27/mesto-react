@@ -19,8 +19,8 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
           />
           <div className="profile__info">
             <div className="profile__text">
-              <h1 className="section-title"></h1>
-              <p className="section-subtitle"></p>
+              <h1 className="section-title">{currentUser.name}</h1>
+              <p className="section-subtitle">{currentUser.about}</p>
             </div>
             <button
               onClick={onEditProfile}
@@ -46,10 +46,10 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
               key={card._id}
               link={card.link}
               name={card.name}
+              cardLike={card.likes.length}
               onCardClick={onCardClick}
               onCardLike={onCardLike}
               onCardDelete={onCardDelete}
-              cardLike={card.likes.length}
               currentUser={currentUser}
             />
           )

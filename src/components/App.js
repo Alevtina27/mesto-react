@@ -21,7 +21,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
 
   const [currentUser, setCurrentUser] = useState({});
-
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -65,7 +64,7 @@ function App() {
 
 
   function handleUpdateUser(name, about){
-    api.getUserInfo(name, about)
+    api.editUserInfo(name, about)
     .then(userData => {
       setCurrentUser(userData)
       closeAllPopups()
@@ -99,10 +98,14 @@ function App() {
  }
 
  function handleLikeClick(card){
-   const isLiked = card.likes.some(i => i._id === currentUser._id);
-   api.addLikes(card._id, !isLiked).then((newCard) => {
+   const isLiked = card.likes.some((i) => i._id === currentUser._id);
+   api.addLikes(card._id, isLiked)
+   .then((newCard) => {
      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-   });
+   })
+   .catch((err) => {
+    console.log(`Ошибка: ${err}`);
+  });
    } 
 
    function handleCardDelete(card){
