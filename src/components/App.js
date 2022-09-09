@@ -1,5 +1,4 @@
 import "../index.css";
-import React from "react";
 import { useState, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Header from "./Header";
@@ -114,8 +113,7 @@ function App() {
     api
       .deleteCard(card._id)
       .then(() => {
-        const newCard = cards.filter((c) => c._id !== card._id);
-        setCards(newCard);
+        setCards(newCard => newCard.filter((c) => c._id !== card._id));
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);

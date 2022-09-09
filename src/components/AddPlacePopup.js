@@ -3,27 +3,27 @@ import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [name, setName] = React.useState("");
-  const [link, setLink] = React.useState("");
+  const [cardName, setcardName] = React.useState("");
+  const [cardLink, setcardLink] = React.useState("");
   const currentUser = React.useContext(CurrentUserContext);
 
   function handleNameChange(e) {
-    setName(e.target.value);
+    setcardName(e.target.value);
   }
   function handleLinkChange(e) {
-    setLink(e.target.value);
+    setcardLink(e.target.value);
   }
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setLink(currentUser.link);
-  }, [currentUser]);
+    setcardName(currentUser.cardName);
+    setcardLink(currentUser.cardLink);
+  }, [isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace({
-      name,
-      link,
+      name: cardName,
+      link: cardLink,
     });
   }
   return (
@@ -40,6 +40,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         id="input-title"
         className="popup__input popup__input_field_title"
         onChange={handleNameChange}
+        value={cardName || ''}
         name="name"
         placeholder="Название"
         minLength="2"
@@ -52,6 +53,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         id="input-url"
         className="popup__input popup__input_field_link"
         onChange={handleLinkChange}
+        value={cardLink || ''}
         placeholder="Ссылка на картинку"
         name="link"
         required
